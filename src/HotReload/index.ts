@@ -14,9 +14,12 @@ export function enableHotReloadForTypes<Types extends HotReloadHostTypeDictionar
     const keyUrl = `HotReload#${name}#Url`;
     const keyUntil = `HotReload#${name}#Until`
 
+    const hotReloadService = getHotReloadService(name, configure);
+
     const isEnabled = (isHotReloadAllowed) ? (window.localStorage.getItem(keyEnabled) === "On") : false;
     const url = (isEnabled) ? window.localStorage.getItem(keyUrl) : null;
-    const isBeforeUntil = (isEnabled && url) && (new Date()).getTime() < (1 + ((isEnabled && url) ? Number.parseInt(window.localStorage.getItem(keyUntil) || "0", 10) : 0));
+    const dtUntil = (isEnabled && url) ? Number.parseInt(window.localStorage.getItem(keyUntil) || "0", 10) : 0;
+    const isBeforeUntil = (isEnabled && url) && ((dtUntil === 0) || ((new Date()).getTime() < dtUntil));
 
     if (isEnabled) {
         console.info("hotreload config", "keyEnabled", keyEnabled, isEnabled, "keyUrl", keyUrl, url, "isBeforeUntil", isBeforeUntil);
@@ -29,7 +32,7 @@ export function enableHotReloadForTypes<Types extends HotReloadHostTypeDictionar
                 loggerService.setLogLevelFromString(name, logLevel ?? LogLevel.debug);
             }
         }
-        getHotReloadService(name, configure).enableHotReloadForTypes(url, types, moduleExports);
+        hotReloadService.enableHotReloadForTypes(url, types, moduleExports);
     } else {
         Object.defineProperty(moduleExports, "__esModule", { value: true });
         for (const key in types) {

@@ -1,5 +1,6 @@
 # PCFCanvasLibrary
 
+
 ## Status 
 - HotReload
 
@@ -45,11 +46,10 @@ The repo https://github.com/FlorianGrimm/PCFCanvasLibrarySample contains a sampl
 - pac pcf init --namespace NamespaceSample --name ControlSample --template field
 - copy index.ts to ControlSample.ts
 
-- npm install https://github.com/FlorianGrimm/PCFCanvasLibrary.git --save
-    
-    only until the version is good engough for npm...
-
+- npm install pcfcanvaslibrary --save
+  
 - index.ts
+
 ```typescript
 import * as control from "./ControlSample";
 
