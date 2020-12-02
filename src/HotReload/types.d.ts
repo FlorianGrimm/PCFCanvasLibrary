@@ -8,25 +8,68 @@ export interface HotReloadHost<IInputs, IOutputs> extends ComponentFramework.Sta
      * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
      * @param hotReloadState the state from getHotReloadState
      */
-    hotReload?<THotReloadState = any>(context: ComponentFramework.Context<IInputs>, notifyOutputChanged?: () => void, state?: ComponentFramework.Dictionary, container?: HTMLDivElement, hotReloadState?: THotReloadState): void;
+    hotReload?(context: ComponentFramework.Context<IInputs>, notifyOutputChanged?: () => void, state?: ComponentFramework.Dictionary, container?: HTMLDivElement, hotReloadState?: any): void;
 
     /**
      * Called before the control will be destroyed and hotReload-ed.
      */
-    getHotReloadState?<THotReloadState = any>(): THotReloadState;
+    getHotReloadState?(): any;
 }
 
+/**
+ * the extra info for the control.
+ */
 export interface HotReloadHostType<IInputs = any, IOutputs = any> {
+    /**
+     * the contructor
+     */
     new(): HotReloadHost<IInputs, IOutputs>;
-    namespace?: string;
-    name?: string;
+
+    /**
+     * a static attribute for better version handling
+     */
     version?: number;
+
+    /**
+     * the namespace -- currently not really needed - ignore this for now
+     */
+    namespace?: string;
+
+    /**
+     * the controls name - ignore this - internal used
+     */
+    name?: string;
 }
 
 export type HotReloadHostTypeDictionary = { [name: string]: HotReloadHostType };
+
+export interface IHotReloadService{    
+}
+
+/**
+ * the window polution is defined here.
+ */
 export declare var PCFCanvasLibrary: PCFCanvasLibrary | undefined;
+
 export declare type PCFCanvasLibrary = {
-    HotReloadService: HotReloadService,
+    /**
+     * the service 
+     */
+    hotReloadService: IHotReloadService,
+
+    /**
+     * enables hot reload for the control for durationHours for this bundle-url.
+     * 
+     * @param name - the name of your control.
+     * @param durationHours - the duration in hours that this control should be active.
+     * @param url the url of the bundle.js default is http://127.0.0.1:8181/bundle.js.
+     */
     enableHotReload: (name: string, durationHours?: number, url?: string) => void;
+
+    /**
+     * diables hot reload for the control.
+     * 
+     * @param name - the name of your control.
+     */
     disableHotReload: (name: string) => void;
 };

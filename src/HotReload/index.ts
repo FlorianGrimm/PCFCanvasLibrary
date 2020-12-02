@@ -1,4 +1,4 @@
-import type { HotReloadHost, HotReloadHostType, HotReloadHostTypeDictionary, PCFCanvasLibrary } from "./types";
+import type { HotReloadHost, HotReloadHostType, HotReloadHostTypeDictionary, IHotReloadService, PCFCanvasLibrary } from "./types";
 import { HotReloadService } from "./HotReloadService";
 import { ILoggerService } from "../Logging/types";
 import { LogLevel } from "../Logging/LogLevel";
@@ -14,13 +14,11 @@ export function enableHotReloadForTypes<Types extends HotReloadHostTypeDictionar
     const keyUrl = `HotReload#${name}#Url`;
     const keyUntil = `HotReload#${name}#Until`
 
-
     const isEnabled = (isHotReloadAllowed) ? (window.localStorage.getItem(keyEnabled) === "On") : false;
     const url = (isEnabled) ? window.localStorage.getItem(keyUrl) : null;
-    const isBeforeUntil = (isEnabled && url) && (new Date()).getTime() < (1+((isEnabled && url) ? Number.parseInt(window.localStorage.getItem(keyUntil) || "0", 10) : 0));
+    const isBeforeUntil = (isEnabled && url) && (new Date()).getTime() < (1 + ((isEnabled && url) ? Number.parseInt(window.localStorage.getItem(keyUntil) || "0", 10) : 0));
 
-
-    if (isEnabled) {        
+    if (isEnabled) {
         console.info("hotreload config", "keyEnabled", keyEnabled, isEnabled, "keyUrl", keyUrl, url, "isBeforeUntil", isBeforeUntil);
     }
     if (isEnabled && url && isBeforeUntil) {
@@ -46,21 +44,22 @@ function enableHotReload(name: string, durationHours?: number, url?: string) {
     window.localStorage.setItem(`HotReload#${name}#Until`, (new Date().getTime() + (durationHours || 0) * 3600000).toString());
 
 }
+
 function disableHotReload(name: string) {
     window.localStorage.setItem(`HotReload#${name}#enabled`, "Off");
 }
 
-export function getHotReloadService(name?: string, configure?: (loggerService: ILoggerService) => void): HotReloadService {
+function getHotReloadService(name?: string, configure?: (loggerService: ILoggerService) => void): HotReloadService {
     const root = window as Partial<{
         PCFCanvasLibrary: Partial<PCFCanvasLibrary>
     }>;
     const lib = (root.PCFCanvasLibrary) || (root.PCFCanvasLibrary = {});
-    if (lib.HotReloadService){return lib.HotReloadService;}
-    
-    lib.HotReloadService = new HotReloadService(name, configure);
-    lib.enableHotReload=enableHotReload;
-    lib.disableHotReload=disableHotReload;
-    return lib.HotReloadService;
+    if (lib.hotReloadService) { return lib.hotReloadService as HotReloadService; }
+
+    lib.hotReloadService = new HotReloadService(name, configure);
+    lib.enableHotReload = enableHotReload;
+    lib.disableHotReload = disableHotReload;
+    return lib.hotReloadService as HotReloadService;
 }
 
 export {

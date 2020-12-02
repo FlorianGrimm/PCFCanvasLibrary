@@ -1,8 +1,9 @@
+import type { HotReloadHostTypeDictionary, IHotReloadService } from "./types";
+import type { ILogger, ILoggerService } from "../Logging";
+
 import { HotReloadProxyControl } from "./HotReloadProxyControl";
 import { HotReloadBundle } from "./HotReloadBundle";
-import { HotReloadHostTypeDictionary } from "./types";
 import { getOrAddByKey } from "./utils";
-import type { ILogger, ILoggerService } from "../Logging";
 import { getLoggerService } from "../Logging";
 
 export class HotReloadService {
