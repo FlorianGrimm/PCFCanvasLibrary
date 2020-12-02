@@ -1,10 +1,14 @@
 {
   "name": "pcfcanvaslibrary",
-  "version": "1.0.0",
-  "description": "PCF Canvas Library",
-  "main": "src\\index.ts",
+  "version": "1.0.0-alpha",
+  "description": "PowerApps PCF Canvas Library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
-    "test": "jest"
+    "build": "tsc"
   },
   "dependencies": {
     "@types/powerapps-component-framework": "^1.2.3",
@@ -35,10 +39,13 @@
   "keywords": [
     "PCF"
   ],
-  "author": "FlorianGrimm",
+  "author": "grimmuko",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/FlorianGrimm/PCFCanvasLibrary/issues"
   },
-  "homepage": "https://github.com/FlorianGrimm/PCFCanvasLibrary#readme"
+  "homepage": "https://github.com/FlorianGrimm/PCFCanvasLibrary#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }

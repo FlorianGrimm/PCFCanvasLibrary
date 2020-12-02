@@ -1,5 +1,5 @@
 //
-import type { 
+export { 
     PCFState,
     UpdateContextCaller,
     UpdateContextStateIncoming,

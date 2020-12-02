@@ -5,14 +5,14 @@ import type {
     UpdateContextStateIncoming,
     UpdateContextStateDerived,
     UpdateContextUpdatedProperties
-} from "./controlstate/types";
+} from "./ControlState/types";
 
 export {
-} from './hotreload/types';
+    HotReloadHost
+} from './HotReload/types';
 
 export {
-    ILogggerTarget, ILoggerService, ILoggerFactory, ILogger,
-    LogLevel, getLoggerService, setLoggerService
+    ILogggerTarget, ILoggerService, ILoggerFactory, ILogger    
 } from './Logging/types';
 
 export {
@@ -24,8 +24,6 @@ export {
 
 export {
     ITriggerEvent, CallbackHandler, Unsubscribe, Resume, ITriggerProperty,
-    TriggerEvent,
-    TriggerProperty
 } from './Triggers/types';
 
 
